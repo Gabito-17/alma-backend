@@ -1,9 +1,9 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class TipoDocumento {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     idTipoDocumento: string;
 
     @Column()
@@ -11,6 +11,9 @@ export class TipoDocumento {
     
     @Column()
     descripcion: string;
+
+    @DeleteDateColumn()
+    deleteAt?: Date;
     
 
 }

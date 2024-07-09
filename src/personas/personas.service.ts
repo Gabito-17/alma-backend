@@ -3,7 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
-import { Personas } from './entities/personas.entity';
+import { Personas } from './entities/persona.entity';
+import { Sexo } from 'src/sexos/entities/sexo.entity';
 
 @Injectable()
 export class PersonasService {
@@ -30,13 +31,18 @@ export class PersonasService {
     }
 
     async update(numeroDoc: string, updatePersonaDto: UpdatePersonaDto): Promise<Personas> {
+        try {
         const persona = await this.findOne(numeroDoc);
         this.personaRepository.merge(persona, updatePersonaDto);
         return this.personaRepository.save(persona);
-    }
+        }
+    catch (err) {
+        return err;
+    }}
 
     async remove(numeroDoc: string): Promise<void> {
         const persona = await this.findOne(numeroDoc);
-        await this.personaRepository.remove(persona);
+        persona.deleteAt = new Date();
+        await this.personaRepository.save(persona);
     }
 }

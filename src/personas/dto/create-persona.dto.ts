@@ -30,6 +30,13 @@ export class CreatePersonaDto {
     @IsNotEmpty()
     @IsEmail()
     readonly mail: string;
-
-    // Puedes agregar más validaciones según sea necesario
+    
+    @IsNotEmpty()
+    idPais: number;
+    
+    @IsNotEmpty()
+    idTipoDocumento: number;
+    
+    @IsNotEmpty()
+    idSexo: number;
 }

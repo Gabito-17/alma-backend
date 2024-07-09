@@ -37,6 +37,7 @@ export class PaisesService {
 
     async remove(idPais: string): Promise<void> {
         const pais = await this.findOne(idPais);
-        await this.paisRepository.remove(pais);
+        pais.deleteAt = new Date();
+        await this.paisRepository.save(pais);
     }
 }

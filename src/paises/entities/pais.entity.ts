@@ -1,11 +1,14 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Column, DeleteDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Pais {
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     idPais: string;
 
     @Column()
     nombre: string;
+
+    @DeleteDateColumn()
+    deleteAt?: Date;
     
 }

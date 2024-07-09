@@ -1,12 +1,15 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { DeleteDateColumn, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Sexo {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     idSexo: String;
 
     @Column()
     sexo: string;
+
+    @DeleteDateColumn()
+    deleteAt?: Date;
 
 }
