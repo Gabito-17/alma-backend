@@ -1,14 +1,14 @@
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from 'typeorm';
 import { Pais } from '../../paises/entities/pais.entity';
 import { Sexo } from '../../sexos/entities/sexo.entity';
 import { TipoDocumento } from '../../tipo-documento/entities/tipo-documento.entity';
-import {
-    Column,
-    DeleteDateColumn,
-    Entity,
-    JoinColumn,
-    OneToOne,
-    PrimaryColumn,
-} from 'typeorm';
 
 @Entity()
 export class Personas {
@@ -36,15 +36,15 @@ export class Personas {
   @DeleteDateColumn()
   deleteAt?: Date;
 
-  @OneToOne(() => Pais)
+  @ManyToOne(() => Pais)
   @JoinColumn()
   pais: Pais;
 
-  @OneToOne(() => TipoDocumento)
+  @ManyToOne(() => TipoDocumento)
   @JoinColumn()
   tipoDocumento: TipoDocumento;
 
-  @OneToOne(() => Sexo)
+  @ManyToOne(() => Sexo)
   @JoinColumn()
   sexo: Sexo;
 }

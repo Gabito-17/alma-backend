@@ -27,9 +27,9 @@ export class UpdatePersonaDto {
   @IsEmail()
   readonly mail?: string;
 
-  idPais?: number;
-  idTipoDocumento?: number;
-  idSexo?: number;
+  idPais?: string;
+  idTipoDocumento?: string;
+  idSexo?: string;
 
   // Puedes agregar más validaciones según sea necesario
 }

@@ -1,0 +1,43 @@
+
+> alma-backend@0.0.1 start
+> nest start
+
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +22ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmCoreModule dependencies initialized[39m[38;5;3m +411ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTypeOrmModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPersonasModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mSexosModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mPaisesModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mTipoDocumentoModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPersonasController {/personas}:[39m[38;5;3m +7ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/personas, GET} route[39m[38;5;3m +4ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/personas/:numeroDoc, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/personas, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/personas/:numeroDoc, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/personas/:numeroDoc, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mSexosController {/sexos}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/sexos, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/sexos, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/sexos/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/sexos/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/sexos/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mPaisesController {/paises}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/paises, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/paises, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/paises/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/paises/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/paises/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mTipoDocumentoController {/tipoDocumentos}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tipoDocumentos, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tipoDocumentos, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tipoDocumentos/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tipoDocumentos/:id, PATCH} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/tipoDocumentos/:id, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 18520  - [39m10/07/2024, 20:50:00 [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +3ms[39m
