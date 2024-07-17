@@ -24,12 +24,14 @@ export class PersonasService {
   constructor() {}
 
   async findAll(): Promise<Personas[]> {
-    return this.personaRepository.find({ relations: ['sexo', 'pais'] });
+    return this.personaRepository.find({
+      relations: ['sexo', 'pais', 'tipoDocumento'],
+    });
   }
 
   async findOne(numeroDoc: string): Promise<Personas> {
     const persona = await this.personaRepository.findOne({
-      relations: ['sexo', 'pais'],
+      relations: ['sexo', 'pais', 'tipoDocumento'],
       where: { numeroDoc },
     });
     if (!persona) {

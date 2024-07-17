@@ -28,10 +28,10 @@ export class Personas {
   direccion: string;
 
   @Column('date')
-  fechaDeNacimiento: Date;
+  fechaNacimiento: Date;
 
   @Column()
-  mail: string;
+  email: string;
 
   @DeleteDateColumn()
   deleteAt?: Date;

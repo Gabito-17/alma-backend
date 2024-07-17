@@ -25,11 +25,11 @@ export class CreatePersonaDto {
   @IsNotEmpty()
   @IsDate()
   @Type(() => Date)
-  readonly fechaDeNacimiento: Date;
+  readonly fechaNacimiento: Date;
 
   @IsNotEmpty()
   @IsEmail()
-  readonly mail: string;
+  readonly email: string;
 
   @IsNotEmpty()
   @IsString()
