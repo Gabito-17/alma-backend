@@ -1,9 +1,23 @@
-import { IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNumber,
+  IsString,
+  Length,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateTipoDocumentoDto {
-    @IsString()
-    sigla: string;
-    
-    @IsString()
-    descripcion: string;
+  @IsString()
+  @Length(1, 20)
+  sigla: string;
+
+  @IsString()
+  @MaxLength(255)
+  descripcion: string;
+
+  @IsNumber()
+  cantDigitos: number;
+
+  @IsBoolean()
+  admiteLetras: boolean;
 }

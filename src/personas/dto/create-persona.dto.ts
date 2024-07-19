@@ -1,5 +1,13 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
+import { sexo } from '../entities/sexo.enum';
 
 export class CreatePersonaDto {
   @IsNotEmpty()
@@ -8,38 +16,33 @@ export class CreatePersonaDto {
 
   @IsNotEmpty()
   @IsString()
-  readonly apellido: string;
+  idTipoDocumento: number;
 
   @IsNotEmpty()
   @IsString()
-  readonly nombre: string;
+  nombre: string;
 
   @IsNotEmpty()
   @IsString()
-  readonly telefono: string;
+  apellido: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
-  readonly direccion: string;
+  telefono: string;
+
+  @IsOptional()
+  @IsString()
+  direccion: string;
+
+  @IsEnum(sexo)
+  sexo: sexo;
 
   @IsNotEmpty()
   @IsDate()
   @Type(() => Date)
   readonly fechaNacimiento: Date;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEmail()
-  readonly email: string;
-
-  @IsNotEmpty()
-  @IsString()
-  idPais: string;
-
-  @IsNotEmpty()
-  @IsString()
-  idTipoDocumento: string;
-
-  @IsNotEmpty()
-  @IsString()
-  idSexo: string;
+  email: string;
 }

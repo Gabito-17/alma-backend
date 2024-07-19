@@ -6,8 +6,10 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { CreatePersonaDto } from './dto/create-persona.dto';
+import { PaginationDto } from './dto/paginationDto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
 import { Personas } from './entities/persona.entity';
 import { PersonasService } from './personas.service';
@@ -15,7 +17,7 @@ import { PersonasService } from './personas.service';
 @Controller('personas')
 export class PersonasController {
   constructor(private readonly personaService: PersonasService) {}
-
+  
   @Get()
   async findAll(): Promise<Personas[]> {
     return this.personaService.findAll();
@@ -25,6 +27,11 @@ export class PersonasController {
   async findOne(@Param('numeroDoc') numeroDoc: string): Promise<Personas> {
     return this.personaService.findOne(numeroDoc);
   }
+  @Get()
+  async getPersonas(@Query() paginationDto: PaginationDto) {
+    return await this.personaService.getPaginatedPersonas(paginationDto);
+  }
+
 
   @Post()
   async crearPersona(

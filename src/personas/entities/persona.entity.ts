@@ -5,27 +5,39 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
+  TableInheritance,
 } from 'typeorm';
-import { Pais } from '../../paises/entities/pais.entity';
-import { Sexo } from '../../sexos/entities/sexo.entity';
 import { TipoDocumento } from '../../tipo-documento/entities/tipo-documento.entity';
+import { sexo } from './sexo.enum';
 
 @Entity()
-export class Personas {
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
+export class Persona {
   @PrimaryColumn()
   numeroDoc: string;
 
-  @Column()
-  apellido: string;
+  @ManyToOne(() => TipoDocumento)
+  @JoinColumn()
+  tipoDocumento: TipoDocumento;
 
   @Column()
   nombre: string;
+
+  @Column()
+  apellido: string;
 
   @Column()
   telefono: string;
 
   @Column()
   direccion: string;
+
+  @Column({
+    type: 'enum',
+    enum: sexo,
+    default: sexo.OTRO,
+  })
+  sexo: sexo;
 
   @Column('date')
   fechaNacimiento: Date;
@@ -35,16 +47,4 @@ export class Personas {
 
   @DeleteDateColumn()
   deleteAt?: Date;
-
-  @ManyToOne(() => Pais)
-  @JoinColumn()
-  pais: Pais;
-
-  @ManyToOne(() => TipoDocumento)
-  @JoinColumn()
-  tipoDocumento: TipoDocumento;
-
-  @ManyToOne(() => Sexo)
-  @JoinColumn()
-  sexo: Sexo;
 }
