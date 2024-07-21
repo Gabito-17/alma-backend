@@ -5,18 +5,18 @@ import { Repository } from 'typeorm';
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { PaginationDto } from './dto/paginationDto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
-import { Personas } from './entities/persona.entity';
+import { Persona } from './entities/persona.entity';
 
 @Injectable()
 export class PersonasService {
-  @InjectRepository(Personas)
-  private readonly personaRepository: Repository<Personas>;
+  @InjectRepository(Persona)
+  private readonly personaRepository: Repository<Persona>;
 
   @InjectRepository(TipoDocumento)
   private readonly tipoDocumentoRepository: Repository<TipoDocumento>;
   constructor() {}
 
-  async findAll(): Promise<Personas[]> {
+  async findAll(): Promise<Persona[]> {
     return this.personaRepository.find({
       relations: ['sexo', 'pais', 'tipoDocumento'],
     });
@@ -34,7 +34,7 @@ export class PersonasService {
     };
   }
 
-  async findOne(numeroDoc: string): Promise<Personas> {
+  async findOne(numeroDoc: string): Promise<Persona> {
     const persona = await this.personaRepository.findOne({
       relations: ['sexo', 'pais', 'tipoDocumento'],
       where: { numeroDoc },
@@ -45,11 +45,10 @@ export class PersonasService {
     return persona;
   }
 
-  async create(createPersonaDto: CreatePersonaDto): Promise<Personas> {
+  async create(createPersonaDto: CreatePersonaDto): Promise<Persona> {
     try {
-
       const tipoDocumento = await this.tipoDocumentoRepository.findOneBy({
-        idTipoDocumento: createPersonaDto.idTipoDocumento,
+        idTipoDocumento: parseInt(createPersonaDto.idTipoDocumento),
       });
       if (!tipoDocumento) {
         throw new NotFoundException(
@@ -70,7 +69,7 @@ export class PersonasService {
   async update(
     numeroDoc: string,
     updatePersonaDto: UpdatePersonaDto,
-  ): Promise<Personas> {
+  ): Promise<Persona> {
     try {
       const persona = await this.findOne(numeroDoc);
       this.personaRepository.merge(persona, updatePersonaDto);

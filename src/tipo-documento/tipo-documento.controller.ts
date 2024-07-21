@@ -3,7 +3,7 @@ import { TipoDocumentoService } from './tipo-documento.service';
 import { CreateTipoDocumentoDto } from './dto/create-tipo-documento.dto';
 import { UpdateTipoDocumentoDto } from './dto/update-tipo-documento.dto';
 
-@Controller('tipoDocumentos')
+@Controller('tipo-documentos')
 export class TipoDocumentoController {
   constructor(private readonly tipoDocumentoService: TipoDocumentoService) {}
 

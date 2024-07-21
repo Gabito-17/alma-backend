@@ -18,7 +18,7 @@ export class TipoDocumentoService {
     });
     if (!TipoDocumento) {
       throw new NotFoundException(
-        `Persona with ID ${idTipoDocumento} not found`,
+        `Documento with ID ${idTipoDocumento} not found`,
       );
     }
     return TipoDocumento;
@@ -26,10 +26,11 @@ export class TipoDocumentoService {
 
   async create(createTipoDocumentoDto: CreateTipoDocumentoDto) {
     const TipoDocumento = this.tipoDocumentoRepository.create(
-      createTipoDocumentoDto,
+      createTipoDocumentoDto
     );
     return this.tipoDocumentoRepository.save(TipoDocumento);
   }
+  
   async findAll(): Promise<TipoDocumento[]> {
     return this.tipoDocumentoRepository.find();
   }

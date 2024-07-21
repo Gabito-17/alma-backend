@@ -11,7 +11,7 @@ import {
 import { CreatePersonaDto } from './dto/create-persona.dto';
 import { PaginationDto } from './dto/paginationDto';
 import { UpdatePersonaDto } from './dto/update-persona.dto';
-import { Personas } from './entities/persona.entity';
+import { Persona } from './entities/persona.entity';
 import { PersonasService } from './personas.service';
 
 @Controller('personas')
@@ -19,12 +19,12 @@ export class PersonasController {
   constructor(private readonly personaService: PersonasService) {}
   
   @Get()
-  async findAll(): Promise<Personas[]> {
+  async findAll(): Promise<Persona[]> {
     return this.personaService.findAll();
   }
 
   @Get(':numeroDoc')
-  async findOne(@Param('numeroDoc') numeroDoc: string): Promise<Personas> {
+  async findOne(@Param('numeroDoc') numeroDoc: string): Promise<Persona> {
     return this.personaService.findOne(numeroDoc);
   }
   @Get()
@@ -36,7 +36,7 @@ export class PersonasController {
   @Post()
   async crearPersona(
     @Body() body: CreatePersonaDto,
-  ): Promise<Personas> {
+  ): Promise<Persona> {
     const personaCreada = await this.personaService.create(body);
     return personaCreada;
   }
@@ -45,7 +45,7 @@ export class PersonasController {
   async update(
     @Param('numeroDoc') numeroDoc: string,
     @Body() updatePersonaDto: UpdatePersonaDto,
-  ): Promise<Personas> {
+  ): Promise<Persona> {
     return this.personaService.update(numeroDoc, updatePersonaDto);
   }
 

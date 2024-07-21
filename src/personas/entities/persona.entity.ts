@@ -5,19 +5,28 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryColumn,
+  PrimaryGeneratedColumn,
   TableInheritance,
 } from 'typeorm';
 import { TipoDocumento } from '../../tipo-documento/entities/tipo-documento.entity';
-import { sexo } from './sexo.enum';
+
+export enum Sexo {
+  MASCULINO = 'Masculino',
+  FEMENINO = 'Femenino',
+  OTRO = 'Otro',
+}
 
 @Entity()
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class Persona {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id: number;
+  
+  @Column()
   numeroDoc: string;
 
   @ManyToOne(() => TipoDocumento)
-  @JoinColumn()
+  @JoinColumn({ name: 'id_tipo_documento' })
   tipoDocumento: TipoDocumento;
 
   @Column()
@@ -34,10 +43,10 @@ export class Persona {
 
   @Column({
     type: 'enum',
-    enum: sexo,
-    default: sexo.OTRO,
+    enum: Sexo,
+    default: Sexo.OTRO,
   })
-  sexo: sexo;
+  sexo: Sexo;
 
   @Column('date')
   fechaNacimiento: Date;

@@ -4,10 +4,11 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { sexo } from '../entities/sexo.enum';
+import { Sexo } from '../entities/persona.entity';
 
 export class CreatePersonaDto {
   @IsNotEmpty()
@@ -16,7 +17,7 @@ export class CreatePersonaDto {
 
   @IsNotEmpty()
   @IsString()
-  idTipoDocumento: number;
+  idTipoDocumento: string;
 
   @IsNotEmpty()
   @IsString()
@@ -34,8 +35,9 @@ export class CreatePersonaDto {
   @IsString()
   direccion: string;
 
-  @IsEnum(sexo)
-  sexo: sexo;
+  @IsNotEmpty()
+  @IsEnum(Sexo)
+  sexo: Sexo;
 
   @IsNotEmpty()
   @IsDate()

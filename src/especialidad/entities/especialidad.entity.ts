@@ -1,3 +1,4 @@
+import { IsString } from 'class-validator';
 import {
   Column,
   DeleteDateColumn,
@@ -6,21 +7,16 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class TipoDocumento {
+export class Especialidad {
   @PrimaryGeneratedColumn()
-  idTipoDocumento: number;
+  idEspecialidad: number;
 
   @Column()
-  sigla: string;
-
+  @IsString()
+  nombre: string;
   @Column()
+  @IsString()
   descripcion: string;
-
-  @Column()
-  cantDigitos: number;
-  @Column()
-  admiteLetras: boolean;
-
   @DeleteDateColumn()
-  deleteAt?: Date;
+  deletedAt?: Date;
 }
