@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { SesionService } from './sesion.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateSesionDto } from './dto/create-sesion.dto';
 import { UpdateSesionDto } from './dto/update-sesion.dto';
+import { SesionService } from './sesion.service';
 
-@Controller('sesion')
+@Controller('sesiones')
 export class SesionController {
   constructor(private readonly sesionService: SesionService) {}
 
@@ -17,9 +25,9 @@ export class SesionController {
     return this.sesionService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sesionService.findOne(+id);
+  @Get(':nroSesion')
+  findOne(@Param('nroSesion') nroSesion: string) {
+    return this.sesionService.findOne(+nroSesion);
   }
 
   @Patch(':id')

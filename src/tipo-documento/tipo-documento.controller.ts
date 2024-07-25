@@ -1,7 +1,15 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { TipoDocumentoService } from './tipo-documento.service';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { CreateTipoDocumentoDto } from './dto/create-tipo-documento.dto';
 import { UpdateTipoDocumentoDto } from './dto/update-tipo-documento.dto';
+import { TipoDocumentoService } from './tipo-documento.service';
 
 @Controller('tipo-documentos')
 export class TipoDocumentoController {
@@ -23,7 +31,10 @@ export class TipoDocumentoController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateTipoDocumentoDto: UpdateTipoDocumentoDto) {
+  update(
+    @Param('id') id: number,
+    @Body() updateTipoDocumentoDto: UpdateTipoDocumentoDto,
+  ) {
     return this.tipoDocumentoService.update(id, updateTipoDocumentoDto);
   }
 

@@ -50,12 +50,23 @@ export class SesionService {
     }
   }
 
-  findAll() {
-    return `This action returns all sesion`;
+  async findAll(): Promise<Sesion[]> {
+    return this.sesionRepository.find({
+      relations: ['psicologo', 'paciente'],
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} sesion`;
+  async findOne(nroSesion: number): Promise<Sesion> {
+    const sesion = await this.sesionRepository.findOne({
+      where: { nroSesion },
+      relations: ['psicologo', 'paciente'],
+    });
+
+    if (!Sesion) {
+      throw new NotFoundException(`Psicologo with ID ${nroSesion} not found`);
+    }
+
+    return sesion;
   }
 
   update(id: number, updateSesionDto: UpdateSesionDto) {
