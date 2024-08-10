@@ -17,6 +17,7 @@ export class TipoDocumentoController {
 
   @Post()
   create(@Body() createTipoDocumentoDto: CreateTipoDocumentoDto) {
+    console.log(createTipoDocumentoDto);
     return this.tipoDocumentoService.create(createTipoDocumentoDto);
   }
 
@@ -40,6 +41,7 @@ export class TipoDocumentoController {
 
   @Delete(':id')
   remove(@Param('id') id: number) {
+    console.log('entra');
     return this.tipoDocumentoService.remove(id);
   }
 }

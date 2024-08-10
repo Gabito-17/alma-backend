@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Especialidad } from 'src/especialidad/entities/especialidad.entity';
+import { Paciente } from 'src/paciente/entities/paciente.entity';
 import { Persona } from 'src/personas/entities/persona.entity';
 import { TipoDocumento } from 'src/tipo-documento/entities/tipo-documento.entity';
 import { Psicologo } from './entities/psicologo.entity';
@@ -11,7 +12,13 @@ import { PsicologoService } from './psicologo.service';
   controllers: [PsicologoController],
   providers: [PsicologoService],
   imports: [
-    TypeOrmModule.forFeature([Psicologo, Especialidad, Persona, TipoDocumento]),
+    TypeOrmModule.forFeature([
+      Psicologo,
+      Especialidad,
+      Persona,
+      TipoDocumento,
+      Paciente,
+    ]),
   ],
 })
 export class PsicologoModule {}

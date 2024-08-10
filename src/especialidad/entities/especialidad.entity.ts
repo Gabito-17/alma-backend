@@ -1,8 +1,10 @@
 import { IsString } from 'class-validator';
+import { Psicologo } from 'src/psicologo/entities/psicologo.entity';
 import {
   Column,
   DeleteDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -19,4 +21,7 @@ export class Especialidad {
   descripcion: string;
   @DeleteDateColumn()
   deletedAt?: Date;
+
+  @OneToMany(() => Especialidad, (especialidad) => especialidad.psicologos)
+  psicologos: Psicologo[];
 }

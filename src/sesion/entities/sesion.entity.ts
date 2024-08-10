@@ -2,7 +2,6 @@ import {
   Column,
   DeleteDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -31,11 +30,9 @@ export class Sesion {
   })
   estado: EstadoSesion;
 
-  @ManyToOne(() => Paciente, (paciente) => paciente.sesiones)
-  @JoinColumn({ name: 'id_paciente' })
-  paciente: Paciente;
-
   @ManyToOne(() => Psicologo, (psicologo) => psicologo.sesiones)
-  @JoinColumn({ name: 'id_psicologo' })
   psicologo: Psicologo;
+
+  @ManyToOne(() => Paciente, (paciente) => paciente.sesiones)
+  paciente: Paciente;
 }

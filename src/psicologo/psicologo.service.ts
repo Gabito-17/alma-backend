@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Especialidad } from 'src/especialidad/entities/especialidad.entity';
 import { TipoDocumento } from 'src/tipo-documento/entities/tipo-documento.entity';
@@ -33,7 +37,18 @@ export class PsicologoService {
     }
     if (!tipoDocumento) {
       throw new NotFoundException(
-        `Especialidad with ID ${createPsicologoDto.idTipoDocumento} not found`,
+        `TipoDocumento with ID ${createPsicologoDto.idTipoDocumento} not found`,
+      );
+    }
+
+    // Verificar si ya existe un psicólogo con el mismo número de documento
+    const existingPsicologo = await this.psicologoRepository.findOne({
+      where: { numeroDoc: createPsicologoDto.numeroDoc },
+    });
+
+    if (existingPsicologo) {
+      throw new ConflictException(
+        'Psicólogo con el mismo número de documento ya existe',
       );
     }
 
@@ -48,14 +63,14 @@ export class PsicologoService {
 
   async findAll(): Promise<Psicologo[]> {
     return this.psicologoRepository.find({
-      relations: ['especialidad', 'tipoDocumento'],
+      relations: ['especialidad', 'tipoDocumento', 'pacientes'],
     });
   }
 
   async findOne(numeroDoc: string): Promise<Psicologo> {
     const psicologo = await this.psicologoRepository.findOne({
       where: { numeroDoc },
-      relations: ['especialidad', 'tipoDocumento'],
+      relations: ['especialidad', 'tipoDocumento', 'pacientes'],
     });
 
     if (!psicologo) {
@@ -71,7 +86,12 @@ export class PsicologoService {
   ): Promise<Psicologo> {
     try {
       const psicologo = await this.findOne(numeroDoc);
+      const especialidad = await this.especialidadRepository.findOne({
+        where: { idEspecialidad: parseInt(updatePsicologoDto.idEspecialidad) },
+      });
+      psicologo.especialidad = especialidad;
       this.psicologoRepository.merge(psicologo, updatePsicologoDto);
+
       return this.psicologoRepository.save(psicologo);
     } catch (err) {
       return err;

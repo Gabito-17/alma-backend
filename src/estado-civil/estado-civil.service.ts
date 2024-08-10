@@ -1,15 +1,23 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Paciente } from 'src/paciente/entities/paciente.entity';
 import { Repository } from 'typeorm';
 import { CreateEstadoCivilDto } from './dto/create-estado-civil.dto';
 import { UpdateEstadoCivilDto } from './dto/update-estado-civil.dto';
 import { EstadoCivil } from './entities/estado-civil.entity';
+import { estadoCivilRelationsException } from './estado-civil.exception';
 
 @Injectable()
 export class EstadoCivilService {
   constructor(
     @InjectRepository(EstadoCivil)
     private readonly estadoCivilRepository: Repository<EstadoCivil>,
+    @InjectRepository(Paciente)
+    private readonly pacienteRepository: Repository<Paciente>,
   ) {}
 
   async create(createEstadoCivilDto: CreateEstadoCivilDto) {
@@ -48,13 +56,35 @@ export class EstadoCivilService {
     return this.estadoCivilRepository.save(updatedEstadoCivil);
   }
 
-  async remove(id: number): Promise<void> {
-    // Buscar el registro que quieres eliminar
-    const result = await this.estadoCivilRepository.delete(id);
+  async remove(id: number): Promise<{ message: string }> {
+    try {
+      const estadoCivil = await this.estadoCivilRepository.findOne({
+        where: { idEstadoCivil: id },
+      });
 
-    // Si no se elimina ningún registro, lanzar una excepción
-    if (result.affected === 0) {
-      throw new NotFoundException(`EstadoCivil with ID ${id} not found`);
+      if (!estadoCivil) {
+        throw new NotFoundException('Estado civil no existe');
+      }
+
+      const pacientes = await this.pacienteRepository.find({
+        where: { estadoCivil },
+      });
+
+      if (pacientes.length > 0) {
+        throw new estadoCivilRelationsException();
+      }
+
+      estadoCivil.deleteAt = new Date();
+      await this.estadoCivilRepository.save(estadoCivil);
+
+      return { message: 'Estado civil eliminado exitosamente.' };
+    } catch (e) {
+      if (e instanceof estadoCivilRelationsException) {
+        throw new ConflictException(
+          'La especialidad está asignada a uno o más pacientes y no puede ser eliminada.',
+        );
+      }
+      throw e;
     }
   }
 }

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { Paciente } from '../../paciente/entities/paciente.entity';
 
 @Entity()
 export class EstadoCivil {
@@ -9,4 +16,10 @@ export class EstadoCivil {
   nombre: string;
   @Column()
   descripcion: string;
+
+  @OneToMany(() => Paciente, (paciente) => paciente.estadoCivil)
+  pacientes: Paciente[];
+
+  @DeleteDateColumn()
+  deleteAt?: Date;
 }

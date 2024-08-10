@@ -9,6 +9,7 @@ import {
 } from '@nestjs/common';
 import { CreateSesionDto } from './dto/create-sesion.dto';
 import { UpdateSesionDto } from './dto/update-sesion.dto';
+import { Sesion } from './entities/sesion.entity';
 import { SesionService } from './sesion.service';
 
 @Controller('sesiones')
@@ -21,7 +22,7 @@ export class SesionController {
   }
 
   @Get()
-  findAll() {
+  async findAll(): Promise<Sesion[]> {
     return this.sesionService.findAll();
   }
 
@@ -30,13 +31,16 @@ export class SesionController {
     return this.sesionService.findOne(+nroSesion);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSesionDto: UpdateSesionDto) {
-    return this.sesionService.update(+id, updateSesionDto);
+  @Patch(':nroSesion')
+  update(
+    @Param('nroSesion') nroSesion: string,
+    @Body() updateSesionDto: UpdateSesionDto,
+  ) {
+    return this.sesionService.update(+nroSesion, updateSesionDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sesionService.remove(+id);
+  @Delete(':nroSesion')
+  remove(@Param('nroSesion') nroSesion: string) {
+    return this.sesionService.remove(+nroSesion);
   }
 }
