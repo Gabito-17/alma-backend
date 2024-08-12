@@ -1,16 +1,11 @@
 import { Type } from 'class-transformer';
-import { IsDate, IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
-import { EstadoSesion } from '../entities/sesion.entity';
+import { IsDate, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateSesionDto {
   @IsNotEmpty()
   @IsDate()
   @Type(() => Date)
   fechaHora: Date;
-
-  @IsNotEmpty()
-  @IsEnum(EstadoSesion)
-  estado: EstadoSesion;
 
   @IsNotEmpty()
   @IsNumber()

@@ -5,6 +5,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EstadoCivil } from 'src/estado-civil/entities/estado-civil.entity';
+import { Ocupacion } from 'src/ocupacion/entities/ocupacion.entity';
 import { Psicologo } from 'src/psicologo/entities/psicologo.entity';
 import { TipoDocumento } from 'src/tipo-documento/entities/tipo-documento.entity';
 import { Repository } from 'typeorm';
@@ -25,6 +26,10 @@ export class PacienteService {
 
   @InjectRepository(TipoDocumento)
   private readonly tipoDocumentoRepository: Repository<TipoDocumento>;
+
+  @InjectRepository(Ocupacion)
+  private readonly ocupacionRepository: Repository<Ocupacion>;
+
   constructor() {}
 
   async create(createPacienteDto: CreatePacienteDto): Promise<Paciente> {
@@ -38,9 +43,41 @@ export class PacienteService {
       );
     }
     try {
+      const ocupacion = await this.ocupacionRepository.findOneBy({
+        idOcupacion: parseInt(createPacienteDto.idOcupacion),
+      });
       const tipoDocumento = await this.tipoDocumentoRepository.findOneBy({
         idTipoDocumento: parseInt(createPacienteDto.idTipoDocumento),
       });
+
+      if (tipoDocumento.admiteLetras) {
+        // Verificar si el número de documento contiene al menos una letra
+        if (/[a-zA-Z]/.test(createPacienteDto.numeroDoc)) {
+          // Lógica si contiene letras
+        } else {
+          // Lógica si no contiene letras, pero debería admitirlas
+          throw new ConflictException(
+            'El número de documento debe contener letras.',
+          );
+        }
+      } else {
+        // Verificar si el número de documento solo contiene dígitos
+        if (/^\d+$/.test(createPacienteDto.numeroDoc)) {
+          // Lógica si solo contiene dígitos
+        } else {
+          // Lógica si contiene caracteres que no son dígitos, pero no debería
+          throw new ConflictException(
+            'El número de documento debe contener solo dígitos.',
+          );
+        }
+      }
+      if (createPacienteDto.numeroDoc.length !== tipoDocumento.cantDigitos) {
+        throw new ConflictException(
+          'El numero de documento debe tener ' +
+            tipoDocumento.cantDigitos +
+            ' digitos',
+        );
+      }
 
       const estadoCivil = await this.estadoCivilRepository.findOneBy({
         idEstadoCivil: parseInt(createPacienteDto.idEstadoCivil),
@@ -71,6 +108,7 @@ export class PacienteService {
 
       const paciente = this.pacienteRepository.create({
         ...createPacienteDto,
+        ocupacion: ocupacion,
         tipoDocumento: tipoDocumento,
         estadoCivil: estadoCivil,
         psicologoAsignado,
@@ -90,14 +128,24 @@ export class PacienteService {
 
   async findAll(): Promise<Paciente[]> {
     return this.pacienteRepository.find({
-      relations: ['estadoCivil', 'psicologoAsignado', 'tipoDocumento'],
+      relations: [
+        'estadoCivil',
+        'psicologoAsignado',
+        'tipoDocumento',
+        'ocupacion',
+      ],
     });
   }
 
   async findOne(numeroDoc: string): Promise<Paciente> {
     const paciente = await this.pacienteRepository.findOne({
       where: { numeroDoc },
-      relations: ['estadoCivil', 'psicologoAsignado', 'tipoDocumento'],
+      relations: [
+        'estadoCivil',
+        'psicologoAsignado',
+        'tipoDocumento',
+        'ocupacion',
+      ],
     });
 
     if (!paciente) {
@@ -149,6 +197,17 @@ export class PacienteService {
           );
         }
         paciente.psicologoAsignado = psicologoAsignado;
+      }
+      if (updatePacienteDto.idOcupacion) {
+        const ocupacion = await this.ocupacionRepository.findOneBy({
+          idOcupacion: parseInt(updatePacienteDto.idOcupacion),
+        });
+        if (!ocupacion) {
+          throw new NotFoundException(
+            `Ocupacion with ID ${updatePacienteDto.idOcupacion} not found`,
+          );
+        }
+        paciente.ocupacion = ocupacion;
       }
 
       this.pacienteRepository.merge(paciente, updatePacienteDto);

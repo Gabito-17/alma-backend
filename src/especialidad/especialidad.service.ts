@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { error } from 'console';
 import { Psicologo } from 'src/psicologo/entities/psicologo.entity';
@@ -18,13 +22,18 @@ export class EspecialidadService {
     private readonly psicologoRepository: Repository<Psicologo>,
   ) {}
 
-  async create(
-    createEspecialidadDto: CreateEspecialidadDto,
-  ): Promise<Especialidad> {
-    const especialidad = this.especialidadRepository.create(
+  async create(createEspecialidadDto: CreateEspecialidadDto) {
+    const soloLetras = /^[A-Za-z\s]+$/;
+    if (!soloLetras.test(createEspecialidadDto.nombre)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
+    if (!soloLetras.test(createEspecialidadDto.descripcion)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
+    const estadoCivil = this.especialidadRepository.create(
       createEspecialidadDto,
     );
-    return this.especialidadRepository.save(especialidad);
+    return this.especialidadRepository.save(estadoCivil);
   }
 
   async findAll(): Promise<Especialidad[]> {
@@ -49,6 +58,13 @@ export class EspecialidadService {
       idEspecialidad: id,
       ...updateEspecialidadDto,
     });
+    const soloLetras = /^[A-Za-z\s]+$/;
+    if (!soloLetras.test(updateEspecialidadDto.nombre)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
+    if (!soloLetras.test(updateEspecialidadDto.descripcion)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
     if (!especialidad) {
       throw new NotFoundException(`Especialidad con id ${id} no encontrada`);
     }

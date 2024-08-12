@@ -57,8 +57,8 @@ export class SesionService {
 
       // Validar que la fecha esté dentro del mes actual
       if (
-        createSesionDto.fechaHora < now ||
-        createSesionDto.fechaHora > oneMonthLater
+        new Date(createSesionDto.fechaHora) < now ||
+        new Date(createSesionDto.fechaHora) > oneMonthLater
       ) {
         throw new BadRequestException(
           'La fecha debe estar dentro del mes actual',
@@ -79,16 +79,18 @@ export class SesionService {
         );
       }
 
-      const startDate = new Date(createSesionDto.fechaHora);
-      const endDate = new Date(createSesionDto.fechaHora);
-      startDate.setHours(startDate.getHours() - 1);
-      endDate.setHours(endDate.getHours() + 1);
+      const sessionDate = new Date(createSesionDto.fechaHora);
+      const startOfOverlap = new Date(sessionDate.getTime());
+      startOfOverlap.setMinutes(startOfOverlap.getMinutes() - 59); // Ventana de tiempo antes
+
+      const endOfOverlap = new Date(sessionDate.getTime());
+      endOfOverlap.setMinutes(endOfOverlap.getMinutes() + 59); // Ventana de tiempo después
 
       // Verificar solapamiento para el psicólogo
       const psicologoConflict = await this.sesionRepository.findOne({
         where: {
           psicologo: { id: createSesionDto.idPsicologo },
-          fechaHora: Between(startDate, endDate),
+          fechaHora: Between(startOfOverlap, endOfOverlap),
         },
       });
 
@@ -102,7 +104,7 @@ export class SesionService {
       const pacienteConflict = await this.sesionRepository.findOne({
         where: {
           paciente: { id: createSesionDto.idPaciente },
-          fechaHora: Between(startDate, endDate),
+          fechaHora: Between(startOfOverlap, endOfOverlap),
         },
       });
 
@@ -111,9 +113,19 @@ export class SesionService {
           'El paciente ya tiene una sesión en el rango de una hora antes o después.',
         );
       }
+      const HORA_INICIO = 8;
+      const HORA_FIN = 19;
+      const fechaHora = new Date(createSesionDto.fechaHora);
+      const hora = fechaHora.getHours();
+      if (hora < HORA_INICIO || hora > HORA_FIN) {
+        throw new BadRequestException(
+          'La hora debe estar dentro del horario laboral (08:00 - 19:00).',
+        );
+      }
 
       const sesion = this.sesionRepository.create({
         ...createSesionDto,
+        estado: EstadoSesion.Pendiente,
         psicologo: psicologo,
         paciente: paciente,
       });
@@ -196,7 +208,7 @@ export class SesionService {
 
   async remove(nroSesion: number): Promise<void> {
     const sesion = await this.findOne(nroSesion);
-    sesion.estado = EstadoSesion.CANCELADO;
+    sesion.estado = EstadoSesion.Cancelado;
     await this.sesionRepository.save(sesion);
   }
 }

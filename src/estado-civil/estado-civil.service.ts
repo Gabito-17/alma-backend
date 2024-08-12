@@ -21,6 +21,13 @@ export class EstadoCivilService {
   ) {}
 
   async create(createEstadoCivilDto: CreateEstadoCivilDto) {
+    const soloLetras = /^[A-Za-z\s]+$/;
+    if (!soloLetras.test(createEstadoCivilDto.nombre)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
+    if (!soloLetras.test(createEstadoCivilDto.descripcion)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
     const estadoCivil = this.estadoCivilRepository.create(createEstadoCivilDto);
     return this.estadoCivilRepository.save(estadoCivil);
   }
@@ -43,6 +50,13 @@ export class EstadoCivilService {
     const estadoCivil = await this.estadoCivilRepository.findOne({
       where: { idEstadoCivil },
     });
+    const soloLetras = /^[A-Za-z\s]+$/;
+    if (!soloLetras.test(updateEstadoCivilDto.nombre)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
+    if (!soloLetras.test(updateEstadoCivilDto.descripcion)) {
+      throw new ConflictException('Los Campos solo deben contener letras.');
+    }
     if (!estadoCivil) {
       throw new NotFoundException(
         `EstadoCivil with ID ${idEstadoCivil} not found`,

@@ -40,6 +40,34 @@ export class PsicologoService {
         `TipoDocumento with ID ${createPsicologoDto.idTipoDocumento} not found`,
       );
     }
+    if (tipoDocumento.admiteLetras) {
+      // Verificar si el número de documento contiene al menos una letra
+      if (/[a-zA-Z]/.test(createPsicologoDto.numeroDoc)) {
+        // Lógica si contiene letras
+      } else {
+        // Lógica si no contiene letras, pero debería admitirlas
+        throw new ConflictException(
+          'El número de documento debe contener letras.',
+        );
+      }
+    } else {
+      // Verificar si el número de documento solo contiene dígitos
+      if (/^\d+$/.test(createPsicologoDto.numeroDoc)) {
+        // Lógica si solo contiene dígitos
+      } else {
+        // Lógica si contiene caracteres que no son dígitos, pero no debería
+        throw new ConflictException(
+          'El número de documento debe contener solo dígitos.',
+        );
+      }
+    }
+    if (createPsicologoDto.numeroDoc.length !== tipoDocumento.cantDigitos) {
+      throw new ConflictException(
+        'El numero de documento debe tener ' +
+          tipoDocumento.cantDigitos +
+          ' digitos',
+      );
+    }
 
     // Verificar si ya existe un psicólogo con el mismo número de documento
     const existingPsicologo = await this.psicologoRepository.findOne({

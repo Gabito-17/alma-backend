@@ -9,9 +9,9 @@ import { Paciente } from '../../paciente/entities/paciente.entity';
 import { Psicologo } from '../../psicologo/entities/psicologo.entity';
 
 export enum EstadoSesion {
-  REALIZADO = 'Realizado',
-  PENDIENTE = 'Pendiente',
-  CANCELADO = 'Cancelado',
+  Realizado = 'Realizado',
+  Pendiente = 'Pendiente',
+  Cancelado = 'Cancelado',
 }
 
 @Entity()
@@ -26,7 +26,7 @@ export class Sesion {
   @Column({
     type: 'enum',
     enum: EstadoSesion,
-    default: EstadoSesion.PENDIENTE,
+    default: EstadoSesion.Pendiente,
   })
   estado: EstadoSesion;
 

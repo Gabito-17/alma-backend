@@ -9,6 +9,8 @@ import { TipoDocumentoModule } from './tipo-documento/tipo-documento.module';
 import { EspecialidadModule } from './especialidad/especialidad.module';
 import { PsicologoModule } from './psicologo/psicologo.module';
 import { SesionModule } from './sesion/sesion.module';
+import { OcupacionModule } from './ocupacion/ocupacion.module';
+import { SecretarioModule } from './secretario/secretario.module';
 
 @Module({
   imports: [
@@ -20,7 +22,9 @@ import { SesionModule } from './sesion/sesion.module';
     EstadoCivilModule,
     EspecialidadModule,
     PsicologoModule,
-    SesionModule, // Importa aquí el módulo donde estás utilizando PersonaRepository
+    SesionModule,
+    OcupacionModule,
+    SecretarioModule, // Importa aquí el módulo donde estás utilizando PersonaRepository
   ],
 })
 export class AppModule {}

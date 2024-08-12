@@ -1,14 +1,12 @@
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Entity, ManyToOne, OneToMany } from 'typeorm';
 import { EstadoCivil } from '../../estado-civil/entities/estado-civil.entity';
+import { Ocupacion } from '../../ocupacion/entities/ocupacion.entity';
 import { Persona } from '../../personas/entities/persona.entity';
 import { Psicologo } from '../../psicologo/entities/psicologo.entity';
 import { Sesion } from '../../sesion/entities/sesion.entity';
 
 @Entity()
 export class Paciente extends Persona {
-  @Column()
-  ocupacion: string;
-
   @ManyToOne(() => EstadoCivil, (estadoCivil) => estadoCivil.pacientes)
   estadoCivil: EstadoCivil;
 
@@ -17,4 +15,6 @@ export class Paciente extends Persona {
 
   @ManyToOne(() => Psicologo, (psicologo) => psicologo.pacientes)
   psicologoAsignado: Psicologo;
+  @ManyToOne(() => Ocupacion, (ocupacion) => ocupacion.pacientes)
+  ocupacion: Ocupacion;
 }
