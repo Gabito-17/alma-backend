@@ -91,12 +91,6 @@ $ npm run test:cov
 
 Nest es un proyecto de código abierto licenciado bajo MIT. Puede crecer gracias a los patrocinadores y al apoyo de increíbles colaboradores. Si deseas unirte a ellos, por favor. [lee más aquí](https://docs.nestjs.com/support).
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
 ## License
 
 Nest is [MIT licensed](LICENSE).
