@@ -73,6 +73,14 @@ export class PsicologoService {
     const existingPsicologo = await this.psicologoRepository.findOne({
       where: { numeroDoc: createPsicologoDto.numeroDoc },
     });
+    const telefono = createPsicologoDto.telefono.trim();
+    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
+
+    if (!isValidTelefono) {
+      throw new ConflictException(
+        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+      );
+    }
 
     if (existingPsicologo) {
       throw new ConflictException(
