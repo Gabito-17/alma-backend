@@ -87,7 +87,7 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 ## Front-end
-Clona el repositorio ubicado en: [Alma-frontend](https://docs.nestjs.com/support](https://github.com/Gabito-17/alma-frontend).
+Clona el repositorio ubicado en: [Alma-frontend](https://github.com/Gabito-17/alma-frontend).
 
 ```bash
 $ npm run schema:sync
