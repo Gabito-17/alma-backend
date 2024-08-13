@@ -86,6 +86,15 @@ $ npm run test:e2e
 # test coverage
 $ npm run test:cov
 ```
+## Front-end
+Clona el repositorio ubicado en: [Alma-frontend](https://docs.nestjs.com/support](https://github.com/Gabito-17/alma-frontend).
+
+```bash
+$ npm run schema:sync
+```
+
+Este comando creará automáticamente las tablas en tu base de datos basadas en tus entidades.
+
 
 ## Soporte
 
