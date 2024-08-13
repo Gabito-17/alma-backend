@@ -90,10 +90,10 @@ $ npm run test:cov
 Clona el repositorio ubicado en: [Alma-frontend](https://github.com/Gabito-17/alma-frontend).
 
 ```bash
-$ npm run schema:sync
+$ git clone https://github.com/Gabito-17/alma-frontend
 ```
 
-Este comando creará automáticamente las tablas en tu base de datos basadas en tus entidades.
+Este comando clonara el Front-End. Continue desde la documentacion del Front-End para levantarlo.
 
 
 ## Soporte
