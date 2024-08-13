@@ -121,6 +121,14 @@ export class PsicologoService {
     updatePsicologoDto: UpdatePsicologoDto,
   ): Promise<Psicologo> {
     try {
+    const telefono = updatePsicologoDto.telefono.trim();
+    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
+
+    if (!isValidTelefono) {
+      throw new ConflictException(
+        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+      );
+    }
       const psicologo = await this.findOne(numeroDoc);
       const especialidad = await this.especialidadRepository.findOne({
         where: { idEspecialidad: parseInt(updatePsicologoDto.idEspecialidad) },

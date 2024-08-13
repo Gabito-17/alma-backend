@@ -10,6 +10,7 @@ import { TipoDocumento } from 'src/tipo-documento/entities/tipo-documento.entity
 import { Repository } from 'typeorm';
 import { CreateSecretarioDto } from './dto/create-secretario.dto';
 import { Secretario } from './entities/secretario.entity';
+import { UpdateSecretarioDto } from './dto/update-secretario.dto';
 
 @Injectable()
 export class SecretarioService {
@@ -74,6 +75,14 @@ export class SecretarioService {
           ' digitos.',
       );
     }
+    const telefono = createSecretarioDto.telefono.trim();
+    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
+
+    if (!isValidTelefono) {
+      throw new ConflictException(
+        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+      );
+    }
     const secretario = this.secretarioRepository.create({
       ...createSecretarioDto,
       tipoDocumento: tipoDocumento,
@@ -87,6 +96,15 @@ export class SecretarioService {
     updatePersonaDto: UpdatePersonaDto,
   ): Promise<Persona> {
     try {
+    const paciente = await this.findOne(numeroDoc);
+    const telefono = updatePersonaDto.telefono.trim();
+    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
+
+    if (!isValidTelefono) {
+      throw new ConflictException(
+        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+      );
+    }
       const persona = await this.findOne(numeroDoc);
       this.secretarioRepository.merge(persona, updatePersonaDto);
       return this.secretarioRepository.save(persona);

@@ -36,7 +36,14 @@ export class PacienteService {
     const existingPaciente = await this.pacienteRepository.findOne({
       where: { numeroDoc: createPacienteDto.numeroDoc },
     });
+    const telefono = createPacienteDto.telefono.trim();
+    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
 
+    if (!isValidTelefono) {
+      throw new ConflictException(
+        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+      );
+    }
     if (existingPaciente) {
       throw new ConflictException(
         `Paciente con el numero de documento ${createPacienteDto.numeroDoc} ya existe`,
@@ -160,8 +167,15 @@ export class PacienteService {
     updatePacienteDto: UpdatePacienteDto,
   ): Promise<Paciente> {
     try {
-      const paciente = await this.findOne(numeroDoc);
+    const paciente = await this.findOne(numeroDoc);
+    const telefono = updatePacienteDto.telefono.trim();
+    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
 
+    if (!isValidTelefono) {
+      throw new ConflictException(
+        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+      );
+    }
       if (updatePacienteDto.idTipoDocumento) {
         const tipoDocumento = await this.tipoDocumentoRepository.findOneBy({
           idTipoDocumento: parseInt(updatePacienteDto.idTipoDocumento),

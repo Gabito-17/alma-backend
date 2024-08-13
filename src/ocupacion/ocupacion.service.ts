@@ -54,7 +54,7 @@ export class OcupacionService {
     const ocupacion = await this.ocupacionRepository.findOne({
       where: { idOcupacion },
     });
-    const soloLetras = /^[A-Za-z\s]+$/;
+    const soloLetras = /^[A-Za-z\sÁÉÍÓÚáéíóúñÑ.,]+$/;
     if (!soloLetras.test(updateOcupacionDto.nombre)) {
       throw new ConflictException('Los Campos solo deben contener letras.');
     }
