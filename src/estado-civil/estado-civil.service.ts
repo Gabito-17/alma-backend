@@ -50,7 +50,8 @@ export class EstadoCivilService {
     const estadoCivil = await this.estadoCivilRepository.findOne({
       where: { idEstadoCivil },
     });
-    const soloLetras = /^[A-Za-z\s]+$/;
+    const soloLetras = /^[A-Za-z\sÁÉÍÓÚáéíóúñÑ.,]+$/;
+
     if (!soloLetras.test(updateEstadoCivilDto.nombre)) {
       throw new ConflictException('Los Campos solo deben contener letras.');
     }

@@ -58,7 +58,7 @@ export class EspecialidadService {
       idEspecialidad: id,
       ...updateEspecialidadDto,
     });
-    const soloLetras = /^[A-Za-z\s]+$/;
+    const soloLetras = /^[A-Za-z\sÁÉÍÓÚáéíóúñÑ.,]+$/;
     if (!soloLetras.test(updateEspecialidadDto.nombre)) {
       throw new ConflictException('Los Campos solo deben contener letras.');
     }

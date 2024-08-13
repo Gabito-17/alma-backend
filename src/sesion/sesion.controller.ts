@@ -11,6 +11,7 @@ import { CreateSesionDto } from './dto/create-sesion.dto';
 import { UpdateSesionDto } from './dto/update-sesion.dto';
 import { Sesion } from './entities/sesion.entity';
 import { SesionService } from './sesion.service';
+import { identity } from 'rxjs';
 
 @Controller('sesiones')
 export class SesionController {
@@ -25,10 +26,10 @@ export class SesionController {
   async findAll(): Promise<Sesion[]> {
     return this.sesionService.findAll();
   }
-
-  @Get(':nroSesion')
-  findOne(@Param('nroSesion') nroSesion: string) {
-    return this.sesionService.findOne(+nroSesion);
+  
+  @Get(':idPaciente')
+  findByPatient(@Param('idPaciente') idPaciente: string) {
+    return this.sesionService.findAllByPatient(+idPaciente);
   }
 
   @Patch(':nroSesion')

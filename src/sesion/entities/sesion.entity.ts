@@ -3,8 +3,11 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { InformeSesion } from '../../informe-sesion/entities/informe-sesion.entity';
 import { Paciente } from '../../paciente/entities/paciente.entity';
 import { Psicologo } from '../../psicologo/entities/psicologo.entity';
 
@@ -35,4 +38,7 @@ export class Sesion {
 
   @ManyToOne(() => Paciente, (paciente) => paciente.sesiones)
   paciente: Paciente;
+
+  @OneToOne(() => InformeSesion, (informeSesion) => informeSesion.sesion)
+  informe: InformeSesion;
 }

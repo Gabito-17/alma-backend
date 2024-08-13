@@ -11,6 +11,7 @@ import { PsicologoModule } from './psicologo/psicologo.module';
 import { SesionModule } from './sesion/sesion.module';
 import { OcupacionModule } from './ocupacion/ocupacion.module';
 import { SecretarioModule } from './secretario/secretario.module';
+import { InformeSesionModule } from './informe-sesion/informe-sesion.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { SecretarioModule } from './secretario/secretario.module';
     PsicologoModule,
     SesionModule,
     OcupacionModule,
-    SecretarioModule, // Importa aquí el módulo donde estás utilizando PersonaRepository
+    SecretarioModule,
+    InformeSesionModule, // Importa aquí el módulo donde estás utilizando PersonaRepository
   ],
 })
 export class AppModule {}

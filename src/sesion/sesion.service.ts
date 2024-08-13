@@ -156,6 +156,20 @@ export class SesionService {
 
     return sesion;
   }
+  async findAllByPatient(idPaciente: number): Promise<Sesion[]> {
+    const sesiones = await this.sesionRepository.find({
+      where: { paciente: { id: idPaciente } },
+      relations: ['psicologo', 'paciente'],
+    });
+
+    if (sesiones.length === 0) {
+      throw new NotFoundException(
+        `No sessions found for patient with ID ${idPaciente}`,
+      );
+    }
+
+    return sesiones;
+  }
 
   async update(
     nroSesion: number,

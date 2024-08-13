@@ -21,7 +21,7 @@ export class OcupacionService {
   ) {}
 
   async create(createOcupacionDto: CreateOcupacionDto) {
-    const soloLetras = /^[A-Za-z\s]+$/;
+    const soloLetras = /^[A-Za-z\sÁÉÍÓÚáéíóúñÑ.,]+$/;
     if (!soloLetras.test(createOcupacionDto.nombre)) {
       throw new ConflictException('Los Campos solo deben contener letras.');
     }
