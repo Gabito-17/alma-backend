@@ -167,15 +167,15 @@ export class PacienteService {
     updatePacienteDto: UpdatePacienteDto,
   ): Promise<Paciente> {
     try {
-    const paciente = await this.findOne(numeroDoc);
-    const telefono = updatePacienteDto.telefono.trim();
-    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
+      const paciente = await this.findOne(numeroDoc);
+      const telefono = updatePacienteDto.telefono.trim();
+      const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
 
-    if (!isValidTelefono) {
-      throw new ConflictException(
-        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
-      );
-    }
+      if (!isValidTelefono) {
+        throw new ConflictException(
+          'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+        );
+      }
       if (updatePacienteDto.idTipoDocumento) {
         const tipoDocumento = await this.tipoDocumentoRepository.findOneBy({
           idTipoDocumento: parseInt(updatePacienteDto.idTipoDocumento),

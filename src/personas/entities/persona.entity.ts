@@ -21,7 +21,7 @@ export enum Sexo {
 export class Persona {
   @PrimaryGeneratedColumn()
   id: number;
-  
+
   @Column()
   numeroDoc: string;
 

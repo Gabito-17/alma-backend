@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["especialidad"]
+  "cSpell.words": ["especialidad"],
+  "C_Cpp.intelliSenseEngineFallback": "disabled"
 }

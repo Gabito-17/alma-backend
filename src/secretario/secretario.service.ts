@@ -96,15 +96,15 @@ export class SecretarioService {
     updatePersonaDto: UpdatePersonaDto,
   ): Promise<Persona> {
     try {
-    const paciente = await this.findOne(numeroDoc);
-    const telefono = updatePersonaDto.telefono.trim();
-    const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
+      const paciente = await this.findOne(numeroDoc);
+      const telefono = updatePersonaDto.telefono.trim();
+      const isValidTelefono = /^[0-9]{7,}$/.test(telefono);
 
-    if (!isValidTelefono) {
-      throw new ConflictException(
-        'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
-      );
-    }
+      if (!isValidTelefono) {
+        throw new ConflictException(
+          'El número de teléfono debe contener al menos 7 dígitos numéricos y no puede tener espacios.',
+        );
+      }
       const persona = await this.findOne(numeroDoc);
       this.secretarioRepository.merge(persona, updatePersonaDto);
       return this.secretarioRepository.save(persona);

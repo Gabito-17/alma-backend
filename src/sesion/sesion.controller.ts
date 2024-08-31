@@ -26,7 +26,7 @@ export class SesionController {
   async findAll(): Promise<Sesion[]> {
     return this.sesionService.findAll();
   }
-  
+
   @Get(':idPaciente')
   findByPatient(@Param('idPaciente') idPaciente: string) {
     return this.sesionService.findAllByPatient(+idPaciente);

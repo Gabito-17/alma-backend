@@ -17,7 +17,7 @@ import { PersonasService } from './personas.service';
 @Controller('personas')
 export class PersonasController {
   constructor(private readonly personaService: PersonasService) {}
-  
+
   @Get()
   async findAll(): Promise<Persona[]> {
     return this.personaService.findAll();
@@ -32,11 +32,8 @@ export class PersonasController {
     return await this.personaService.getPaginatedPersonas(paginationDto);
   }
 
-
   @Post()
-  async crearPersona(
-    @Body() body: CreatePersonaDto,
-  ): Promise<Persona> {
+  async crearPersona(@Body() body: CreatePersonaDto): Promise<Persona> {
     const personaCreada = await this.personaService.create(body);
     return personaCreada;
   }
