@@ -11,15 +11,20 @@ import {
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+  @Column('text')
+  name: string;
+  @Column('text')
+  lastName: string;
+  @Column('date')
+  birthDate: string;
   @Column('text', { unique: true })
   email: string;
   @Column('text', { select: false })
   password: string;
-  @Column('text')
-  fullname: string;
+
   @Column('bool', { default: true })
   isActive: boolean;
-  @Column('text', { array: true, default: ['user'] })
+  @Column('text', { array: true, default: ['paciente'] })
   roles: string[];
   @DeleteDateColumn()
   deleteAt?: Date;
