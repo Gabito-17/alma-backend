@@ -45,10 +45,10 @@ export class AuthService {
         select: { email: true, password: true, id: true },
       });
       if (!user?.email)
-        throw new UnauthorizedException('Credentials are not valid (email)');
+        throw new UnauthorizedException('Credenciales no validas (email)');
 
       if (!bcrypt.compareSync(password, user.password))
-        throw new UnauthorizedException('Password is not valid');
+        throw new UnauthorizedException('La contraseña no es valida');
 
       return { ...user, token: this.getJsonWebToken({ id: user.id }) };
     } catch (error) {
