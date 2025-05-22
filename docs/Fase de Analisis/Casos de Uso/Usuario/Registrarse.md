@@ -19,3 +19,5 @@
   - El usuario queda registrado en el sistema y puede iniciar sesión.
 
 ---
+
+![Wireframe](../../resources//wireframes/Registrarse.png)

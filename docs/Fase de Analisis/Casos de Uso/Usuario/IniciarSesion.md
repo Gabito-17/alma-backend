@@ -16,3 +16,5 @@
   - El usuario accede al sistema con su sesión iniciada.
 
 ---
+
+![Wireframe](../../resources//wireframes/IniciarSesion.png)
