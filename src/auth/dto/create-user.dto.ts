@@ -8,6 +8,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
+import { ValidRoles } from '../interfaces';
 
 export class CreateUserDto {
   @IsEmail()
@@ -40,5 +41,5 @@ export class CreateUserDto {
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  roles?: string[];
+  roles?: ValidRoles[];
 }

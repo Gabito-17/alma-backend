@@ -31,7 +31,10 @@ export class AuthService {
 
       await this.userRepository.save(user);
       user.password = '';
-      return { ...user, token: this.getJsonWebToken({ id: user.id }) };
+      return {
+        ...user,
+        token: this.getJsonWebToken({ id: user.id, role: user.roles }),
+      };
     } catch (error) {
       this.handleDBErrors(error);
     }
@@ -43,12 +46,16 @@ export class AuthService {
       where: { email },
       select: { email: true, password: true, id: true },
     });
-    if (!user?.email) throw new UnauthorizedException('El email no es valido');
+    if (!user?.email)
+      throw new UnauthorizedException('El email no se encuentra registrado');
 
     if (!bcrypt.compareSync(password, user.password))
       throw new UnauthorizedException('La contraseña no es valida');
     try {
-      return { ...user, token: this.getJsonWebToken({ id: user.id }) };
+      return {
+        ...user,
+        token: this.getJsonWebToken({ id: user.id, role: user.roles }),
+      };
     } catch (error) {
       this.handleDBErrors(error);
     }

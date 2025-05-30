@@ -6,6 +6,7 @@ import {
   Entity,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ValidRoles } from '../interfaces';
 
 @Entity()
 export class User {
@@ -24,8 +25,13 @@ export class User {
 
   @Column('bool', { default: true })
   isActive: boolean;
-  @Column('text', { array: true, default: ['paciente'] })
-  roles: string[];
+  @Column({
+    type: 'enum',
+    enum: ValidRoles,
+    array: true,
+    default: [ValidRoles.pacient],
+  })
+  roles: ValidRoles[];
   @DeleteDateColumn()
   deleteAt?: Date;
 

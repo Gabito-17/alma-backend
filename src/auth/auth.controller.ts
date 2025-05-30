@@ -22,7 +22,7 @@ export class AuthController {
   }
 
   @Get('private')
-  @RoleProtected(ValidRoles.superUser)
+  @RoleProtected(ValidRoles.pacient)
   @UseGuards(AuthGuard())
   testingPrivateRoute(
     @Req() request: Express.Request,
@@ -56,5 +56,11 @@ export class AuthController {
       ok: true,
       user,
     };
+  }
+
+  @Get('me')
+  @UseGuards(AuthGuard(), UserRoleGuard)
+  getMe(@GetUser() user: User) {
+    return user;
   }
 }
