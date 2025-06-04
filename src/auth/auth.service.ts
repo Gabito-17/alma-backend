@@ -79,20 +79,22 @@ export class AuthService {
     const { email, name, picture } = profile;
 
     if (!email) {
-      throw new BadRequestException(
-        'No se obtuvo el email del perfil de Google',
-      );
+      throw new BadRequestException('El perfil de Google no tiene email');
     }
 
     let user = await this.userRepository.findOne({ where: { email } });
 
     if (!user) {
+      const [firstName, ...rest] = name.split(' ');
+      const lastName = rest.join(' ') || 'NoLastName';
+
       user = this.userRepository.create({
         email,
-        fullName: name,
+        name: firstName,
+        lastName,
         img: picture,
-        roles: ['pacient'], // Rol por defecto
-        password: '', // No se usa contraseña en login con Google
+        roles: ['pacient'], // Asegurate de tener 'pacient' como valor válido
+        password: '', // Sin contraseña porque es Google Login
       });
 
       try {
