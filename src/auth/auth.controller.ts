@@ -57,7 +57,6 @@ export class AuthController {
       user,
     };
   }
-
   @Get('me')
   @UseGuards(AuthGuard(), UserRoleGuard)
   getMe(@GetUser() user: User) {
