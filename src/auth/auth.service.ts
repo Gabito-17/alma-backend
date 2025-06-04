@@ -61,6 +61,16 @@ export class AuthService {
     }
   }
 
+  async loginWithGoogle(profile: any) {
+    const user = await this.validateOrCreateUser(profile);
+    const payload = { email: user.email, sub: user.id };
+
+    return {
+      access_token: this.jwtService.sign(payload),
+      user,
+    };
+  }
+
   private getJsonWebToken(payload: JwtPayload) {
     //generacion de JsonWebToken
     const token = this.jtwService.sign(payload);
