@@ -18,22 +18,25 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly jtwService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
     try {
       const { password, ...userData } = createUserDto;
+
+      const hashedPassword = await bcrypt.hash(password, 10);
       const user = this.userRepository.create({
         ...userData,
-        password: bcrypt.hashSync(password, 10),
+        password: hashedPassword,
       });
 
       await this.userRepository.save(user);
       user.password = '';
+
       return {
         ...user,
-        token: this.getJsonWebToken({ id: user.id, role: user.roles }),
+        token: this.getJwtToken({ id: user.id, role: user.roles }),
       };
     } catch (error) {
       this.handleDBErrors(error);
@@ -41,47 +44,77 @@ export class AuthService {
   }
 
   async login(loginUserDto: LoginUserDto) {
-    const { password, email } = loginUserDto;
+    const { email, password } = loginUserDto;
+
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true, id: true },
+      select: { id: true, email: true, password: true, roles: true },
     });
-    if (!user?.email)
+
+    if (!user)
       throw new UnauthorizedException('El email no se encuentra registrado');
 
-    if (!bcrypt.compareSync(password, user.password))
-      throw new UnauthorizedException('La contraseña no es valida');
-    try {
-      return {
-        ...user,
-        token: this.getJsonWebToken({ id: user.id, role: user.roles }),
-      };
-    } catch (error) {
-      this.handleDBErrors(error);
-    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid)
+      throw new UnauthorizedException('La contraseña no es válida');
+
+    user.password = '';
+
+    return {
+      ...user,
+      token: this.getJwtToken({ id: user.id, role: user.roles }),
+    };
   }
 
   async loginWithGoogle(profile: any) {
     const user = await this.validateOrCreateUser(profile);
-    const payload = { email: user.email, sub: user.id };
 
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: this.jwtService.sign({ id: user.id, role: user.roles }),
       user,
     };
   }
 
-  private getJsonWebToken(payload: JwtPayload) {
-    //generacion de JsonWebToken
-    const token = this.jtwService.sign(payload);
-    return token;
+  private async validateOrCreateUser(profile: any): Promise<User> {
+    const { email, name, picture } = profile;
+
+    if (!email) {
+      throw new BadRequestException(
+        'No se obtuvo el email del perfil de Google',
+      );
+    }
+
+    let user = await this.userRepository.findOne({ where: { email } });
+
+    if (!user) {
+      user = this.userRepository.create({
+        email,
+        fullName: name,
+        img: picture,
+        roles: ['pacient'], // Rol por defecto
+        password: '', // No se usa contraseña en login con Google
+      });
+
+      try {
+        await this.userRepository.save(user);
+      } catch (error) {
+        this.handleDBErrors(error);
+      }
+    }
+
+    return user;
+  }
+
+  private getJwtToken(payload: JwtPayload): string {
+    return this.jwtService.sign(payload);
   }
 
   private handleDBErrors(error: any): never {
     if (error.code === '23505') {
       throw new BadRequestException(error.detail);
     }
-    console.log(error);
-    throw new InternalServerErrorException('please check server logs');
+
+    console.error(error);
+    throw new InternalServerErrorException('Revisar logs del servidor');
   }
 }
