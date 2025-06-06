@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
-import { Auth, GetUser, RawHeaders } from './decorators';
+import { GetUser, RawHeaders } from './decorators';
 import { RoleProtected } from './decorators/role-protected.decorator';
 import { CreateUserDto, LoginUserDto } from './dto';
+import { CompleteProfileDto } from './dto/complete-profile.dto';
 import { User } from './entities/user.entity';
-import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { ValidRoles } from './interfaces';
 
 @Controller('auth')
@@ -38,28 +38,41 @@ export class AuthController {
     };
   }
 
-  @Get('private2')
-  @RoleProtected(ValidRoles.user)
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  testingPrivateRoute2(@GetUser() user: User) {
-    return {
-      ok: true,
-      user,
-    };
-  }
+  @Post('complete-profile')
+  async completeProfile(@Body() dto: CompleteProfileDto, @Req() req) {
+    const { email } = this.jwtService.verify(
+      req.headers.authorization?.split(' ')[1],
+    );
+    if (!email) throw new UnauthorizedException();
 
-  @Get('private3')
-  //Definicion de Rol necesario
-  @Auth(ValidRoles.user)
-  testingPrivateRoute3(@GetUser() user: User) {
+    const existingUser = await this.userRepository.findOne({
+      where: { email },
+    });
+    if (existingUser) {
+      throw new BadRequestException('Este usuario ya existe');
+    }
+
+    const { name, lastName, birthDate, picture } = dto;
+
+    const user = this.userRepository.create({
+      email,
+      name,
+      lastName,
+      birthDate,
+      img: picture,
+      roles: ['pacient'],
+      password: '',
+    });
+
+    try {
+      await this.userRepository.save(user);
+    } catch (error) {
+      this.handleDBErrors(error);
+    }
+
     return {
-      ok: true,
       user,
+      access_token: this.getJwtToken({ id: user.id, role: user.roles }),
     };
-  }
-  @Get('me')
-  @UseGuards(AuthGuard(), UserRoleGuard)
-  getMe(@GetUser() user: User) {
-    return user;
   }
 }
