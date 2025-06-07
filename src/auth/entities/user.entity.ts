@@ -16,20 +16,17 @@ export class User {
   name: string;
   @Column('text')
   lastName: string;
-  @Column('date')
-  birthDate: string;
   @Column('text', { unique: true })
   email: string;
   @Column('text', { select: false })
   password: string;
-
   @Column('bool', { default: true })
   isActive: boolean;
   @Column({
     type: 'enum',
     enum: ValidRoles,
     array: true,
-    default: [ValidRoles.pacient],
+    default: [ValidRoles.user],
   })
   roles: ValidRoles[];
   @DeleteDateColumn()

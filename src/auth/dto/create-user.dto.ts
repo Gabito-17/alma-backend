@@ -26,9 +26,6 @@ export class CreateUserDto {
   password: string;
 
   @IsString()
-  birthDate: string;
-
-  @IsString()
   name: string;
 
   @IsString()
