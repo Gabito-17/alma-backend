@@ -7,6 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ValidRoles } from '../interfaces';
+import { Optional } from '@nestjs/common';
 
 @Entity()
 export class User {
@@ -22,6 +23,13 @@ export class User {
   password: string;
   @Column('bool', { default: true })
   isActive: boolean;
+  @Column('text')
+  authProvider: string;
+  @Column('text')
+  image: string;
+  @Column('text')
+  @Optional()
+  googleId: string;
   @Column({
     type: 'enum',
     enum: ValidRoles,
