@@ -2,9 +2,11 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ValidRoles } from '../interfaces';
 import { Optional } from '@nestjs/common';
@@ -25,10 +27,10 @@ export class User {
   isActive: boolean;
   @Column('text')
   authProvider: string;
-  @Column('text')
+  @Column('text', {nullable: true})
   image: string;
   @Column('text')
-  @Optional()
+  @Column({ nullable: true, unique: true })
   googleId: string;
   @Column({
     type: 'enum',
@@ -39,6 +41,12 @@ export class User {
   roles: ValidRoles[];
   @DeleteDateColumn()
   deleteAt?: Date;
+
+  @CreateDateColumn()
+  creadoEn: Date;
+  
+  @UpdateDateColumn()
+  actualizadoEn: Date;
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {
